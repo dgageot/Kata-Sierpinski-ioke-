@@ -1,0 +1,22 @@
+# sudo gem install watchr growl
+#
+# Run me with:
+#   $ watchr watch.txt
+#
+require 'growl'
+
+watch('.*\.ik') {test}
+Signal.trap('QUIT') {test_trace} # Ctrl-\
+
+def test
+  clear_screen
+  if (system "ispec kata_spec.ik")
+    Growl.notify 'SUCCESS', :icon => 'misc/green.png'
+  else
+    Growl.notify 'FAILURE', :icon => 'misc/red.png'
+  end
+end
+
+def clear_screen
+  print "\e[2J\e[f"
+end
